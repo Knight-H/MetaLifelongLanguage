@@ -1,0 +1,178 @@
+python train_text_cls.py --order 1
+python train_text_cls.py --order 2
+python train_text_cls.py --order 3
+python train_text_cls.py --order 4
+
+
+Order 1
+2022-04-16 20:44:10,101 - ContinualLearningLog - INFO - Saved the model with name OML-2022-04-16_18-19-52.158289.pt     
+2022-04-16 20:44:10,102 - ContinualLearningLog - INFO - ----------Testing on val set starts here----------              
+2022-04-16 20:44:10,102 - OML-Log - INFO - Testing on YelpDataset                                                       
+2022-04-16 20:44:11,043 - OML-Log - INFO - Support set metrics: Loss = 0.6725, accuracy = 0.7500, precision = 0.9005, recall = 0.8870, F1 score = 0.8728                                                                                        
+2022-04-16 20:45:49,153 - OML-Log - INFO - Test metrics: Loss = 1.0768, accuracy = 0.5457, precision = 0.5868, recall = 0.5478, F1 score = 0.5487                                                                                               
+2022-04-16 20:45:49,154 - OML-Log - INFO - Testing on AGNewsDataset                                                     
+2022-04-16 20:45:50,061 - OML-Log - INFO - Support set metrics: Loss = 0.5366, accuracy = 0.7875, precision = 0.8577, recall = 0.8631, F1 score = 0.8380                                                                                        
+2022-04-16 20:47:08,718 - OML-Log - INFO - Test metrics: Loss = 0.4007, accuracy = 0.8868, precision = 0.9089, recall = 0.8868, F1 score = 0.8968                                                                                               
+2022-04-16 20:47:08,718 - OML-Log - INFO - Testing on DBPediaDataset                                                    
+2022-04-16 20:47:09,629 - OML-Log - INFO - Support set metrics: Loss = 0.8773, accuracy = 0.6875, precision = 0.7421, recall = 0.7785, F1 score = 0.7398                                                                                        
+2022-04-16 20:48:31,010 - OML-Log - INFO - Test metrics: Loss = 0.0714, accuracy = 0.9874, precision = 0.9883, recall = 0.9875, F1 score = 0.9878                                                                                               
+2022-04-16 20:48:31,010 - OML-Log - INFO - Testing on AmazonDataset      
+2022-04-16 20:48:31,920 - OML-Log - INFO - Support set metrics: Loss = 0.7521, accuracy = 0.7875, precision = 0.8452, recall = 0.8700, F1 score = 0.8285
+2022-04-16 20:49:58,453 - OML-Log - INFO - Test metrics: Loss = 1.2043, accuracy = 0.5249, precision = 0.5897, recall =
+0.5256, F1 score = 0.5317
+2022-04-16 20:49:58,453 - OML-Log - INFO - Testing on YahooAnswersDataset
+2022-04-16 20:49:59,375 - OML-Log - INFO - Support set metrics: Loss = 0.7319, accuracy = 0.7375, precision = 0.7099, recall = 0.7863, F1 score = 0.7251
+2022-04-16 20:51:34,296 - OML-Log - INFO - Test metrics: Loss = 0.8017, accuracy = 0.7530, precision = 0.7573, recall =
+0.7534, F1 score = 0.7505
+2022-04-16 20:51:34,297 - OML-Log - INFO - Overall test metrics: Accuracy = 0.7396, precision = 0.7662, recall = 0.7402, F1 score = 0.7431
+2022-04-16 20:51:34,297 - ContinualLearningLog - INFO - ----------Testing on test set starts here----------
+2022-04-16 20:51:34,297 - OML-Log - INFO - Testing on YelpDataset
+2022-04-16 20:51:35,235 - OML-Log - INFO - Support set metrics: Loss = 0.6910, accuracy = 0.7750, precision = 0.8554, recall = 0.8594, F1 score = 0.8376
+2022-04-16 20:53:13,393 - OML-Log - INFO - Test metrics: Loss = 1.0788, accuracy = 0.5420, precision = 0.5856, recall =
+0.5443, F1 score = 0.5439
+2022-04-16 20:53:13,394 - OML-Log - INFO - Testing on AGNewsDataset
+2022-04-16 20:53:14,333 - OML-Log - INFO - Support set metrics: Loss = 0.8455, accuracy = 0.7125, precision = 0.8259, recall = 0.8588, F1 score = 0.8176
+2022-04-16 20:54:33,045 - OML-Log - INFO - Test metrics: Loss = 0.4015, accuracy = 0.8853, precision = 0.9073, recall =
+0.8853, F1 score = 0.8951
+2022-04-16 20:54:33,046 - OML-Log - INFO - Testing on DBPediaDataset
+2022-04-16 20:54:33,965 - OML-Log - INFO - Support set metrics: Loss = 0.7530, accuracy = 0.7250, precision = 0.7145, recall = 0.7531, F1 score = 0.7176
+2022-04-16 20:55:55,367 - OML-Log - INFO - Test metrics: Loss = 0.0713, accuracy = 0.9872, precision = 0.9882, recall =
+0.9873, F1 score = 0.9877
+2022-04-16 20:55:55,368 - OML-Log - INFO - Testing on AmazonDataset
+2022-04-16 20:55:56,309 - OML-Log - INFO - Support set metrics: Loss = 0.6640, accuracy = 0.7750, precision = 0.8234, recall = 0.8373, F1 score = 0.8122
+2022-04-16 20:57:22,873 - OML-Log - INFO - Test metrics: Loss = 1.2000, accuracy = 0.5299, precision = 0.5920, recall =
+0.5305, F1 score = 0.5376
+2022-04-16 20:57:22,873 - OML-Log - INFO - Testing on YahooAnswersDataset
+2022-04-16 20:57:23,790 - OML-Log - INFO - Support set metrics: Loss = 0.8543, accuracy = 0.7375, precision = 0.7178, recall = 0.7169, F1 score = 0.7077
+2022-04-16 20:58:58,626 - OML-Log - INFO - Test metrics: Loss = 0.8023, accuracy = 0.7526, precision = 0.7568, recall =
+0.7530, F1 score = 0.7500
+2022-04-16 20:58:58,626 - OML-Log - INFO - Overall test metrics: Accuracy = 0.7394, precision = 0.7660, recall = 0.7401, F1 score = 0.7429
+
+
+Started on around 12 AM Ended 4:35AM
+
+
+ORDER 2
+============
+(env) (base) root@U23-thanapapas:~/MetaLifelongLanguage# python train_text_cls.py --order 2
+2022-04-17 14:14:40,831 - ContinualLearningLog - INFO - Using configuration: {'order': 2, 'n_epochs': 1, 'lr': 3e-05, 'inner_lr': 0.001, 'meta_lr': 3e-05, 'model': 'bert', 'learner': 'oml', 'mini_batch_size': 16, 'updates': 5, 'write_prob': 1.0, 'max_length': 448, 'seed': 42, 'replay_rate': 0.01, 'replay_every': 9600}
+2022-04-17 14:14:40,831 - ContinualLearningLog - INFO - Loading the datasets
+2022-04-17 17:05:16,238 - ContinualLearningLog - INFO - ----------Testing on val set starts here----------           
+2022-04-17 17:05:16,238 - OML-Log - INFO - Testing on DBPediaDataset                                                 
+2022-04-17 17:05:17,215 - OML-Log - INFO - Support set metrics: Loss = 0.6368, accuracy = 0.7625, precision = 0.8333, recall = 0.8188, F1 score = 0.7948
+2022-04-17 17:06:38,517 - OML-Log - INFO - Testing on YahooAnswersDataset                                            
+2022-04-17 17:06:39,491 - OML-Log - INFO - Support set metrics: Loss = 0.5876, accuracy = 0.7750, precision = 0.7828, recall = 0.8018, F1 score = 0.7746                                                                                  
+2022-04-17 17:08:14,356 - OML-Log - INFO - Test metrics: Loss = 1.0042, accuracy = 0.7084, precision = 0.7466, recall = 0.7091, F1 score = 0.7155                                                                                         
+2022-04-17 17:08:14,357 - OML-Log - INFO - Testing on AGNewsDataset                                                  
+2022-04-17 17:08:15,286 - OML-Log - INFO - Support set metrics: Loss = 0.7605, accuracy = 0.6875, precision = 0.7236, recall = 0.7489, F1 score = 0.7115                                                                                  
+2022-04-17 17:09:33,938 - OML-Log - INFO - Test metrics: Loss = 0.3853, accuracy = 0.8837, precision = 0.9065, recall = 0.8837, F1 score = 0.8930                                                                                         
+2022-04-17 17:09:33,938 - OML-Log - INFO - Testing on AmazonDataset                                                  
+2022-04-17 17:09:34,867 - OML-Log - INFO - Support set metrics: Loss = 0.5319, accuracy = 0.8125, precision = 0.8948, recall = 0.8774, F1 score = 0.8732                                                                                  
+2022-04-17 17:11:01,397 - OML-Log - INFO - Test metrics: Loss = 0.9639, accuracy = 0.5901, precision = 0.5936, recall = 0.5901, F1 score = 0.5826                                                                                         
+2022-04-17 17:11:01,398 - OML-Log - INFO - Testing on YelpDataset                                                    
+2022-04-17 17:11:02,313 - OML-Log - INFO - Support set metrics: Loss = 0.5927, accuracy = 0.7375, precision = 0.8705, recall = 0.8356, F1 score = 0.8367                                                                                  
+2022-04-17 17:12:40,424 - OML-Log - INFO - Test metrics: Loss = 0.8382, accuracy = 0.6371, precision = 0.6429, recall = 0.6376, F1 score = 0.6352                                                                                         
+2022-04-17 17:12:40,424 - OML-Log - INFO - Overall test metrics: Accuracy = 0.7605, precision = 0.7754, recall = 0.7607, F1 score = 0.7623
+2022-04-17 17:12:40,425 - ContinualLearningLog - INFO - ----------Testing on test set starts here----------
+2022-04-17 17:12:40,425 - OML-Log - INFO - Testing on DBPediaDataset
+2022-04-17 17:12:41,400 - OML-Log - INFO - Support set metrics: Loss = 0.6353, accuracy = 0.7750, precision = 0.8752, recall = 0.8640, F1 score = 0.8539
+2022-04-17 17:14:02,729 - OML-Log - INFO - Test metrics: Loss = 0.0793, accuracy = 0.9833, precision = 0.9873, recall = 0.9832, F1 score = 0.9852
+2022-04-17 17:14:02,730 - OML-Log - INFO - Testing on YahooAnswersDataset
+2022-04-17 17:14:03,617 - OML-Log - INFO - Support set metrics: Loss = 0.7881, accuracy = 0.7000, precision = 0.7068, recall = 0.7260, F1 score = 0.7030
+2022-04-17 17:15:38,558 - OML-Log - INFO - Test metrics: Loss = 1.0030, accuracy = 0.7089, precision = 0.7470, recall = 0.7095, F1 score = 0.7159
+2022-04-17 17:15:38,558 - OML-Log - INFO - Testing on AGNewsDataset
+2022-04-17 17:15:39,531 - OML-Log - INFO - Support set metrics: Loss = 0.5194, accuracy = 0.8125, precision = 0.8907, recall = 0.8719, F1 score = 0.8712
+2022-04-17 17:16:58,017 - OML-Log - INFO - Test metrics: Loss = 0.3870, accuracy = 0.8828, precision = 0.9061, recall = 0.8828, F1 score = 0.8922
+2022-04-17 17:16:58,018 - OML-Log - INFO - Testing on AmazonDataset
+2022-04-17 17:16:58,930 - OML-Log - INFO - Support set metrics: Loss = 0.6639, accuracy = 0.7000, precision = 0.7459, recall = 0.7843, F1 score = 0.7444
+2022-04-17 17:18:25,519 - OML-Log - INFO - Test metrics: Loss = 0.9545, accuracy = 0.5922, precision = 0.5934, recall = 0.5922, F1 score = 0.5876
+2022-04-17 17:18:25,520 - OML-Log - INFO - Testing on YelpDataset
+2022-04-17 17:18:26,458 - OML-Log - INFO - Support set metrics: Loss = 0.5209, accuracy = 0.8125, precision = 0.8853, recall = 0.8776, F1 score = 0.8544
+2022-04-17 17:20:04,304 - OML-Log - INFO - Test metrics: Loss = 0.8395, accuracy = 0.6354, precision = 0.6392, recall = 0.6361, F1 score = 0.6319
+2022-04-17 17:20:04,305 - OML-Log - INFO - Overall test metrics: Accuracy = 0.7605, precision = 0.7746, recall = 0.7608, F1 score = 0.7626
+
+
+Order 3
+(env) (base) root@U23-thanapapas:~/MetaLifelongLanguage# python train_text_cls.py --order 3
+2022-04-17 18:20:47,970 - ContinualLearningLog - INFO - Using configuration: {'order': 3, 'n_epochs': 1, 'lr': 3e-05, 'inner_lr': 0.001, 'meta_lr': 3e-05, 'model': 'bert', 'learner': 'oml', 'mini_batch_size': 16, 'updates': 5, 'write_prob': 1.0, 'max_length': 448, 'seed': 42, 'replay_rate': 0.01, 'replay_every': 9600}
+2022-04-17 18:20:47,971 - ContinualLearningLog - INFO - Loading the datasets
+2022-04-17 21:11:01,938 - ContinualLearningLog - INFO - Saved the model with name OML-2022-04-17_18-46-49.700106.pt     2022-04-17 21:11:01,938 - ContinualLearningLog - INFO - ----------Testing on val set starts here----------              2022-04-17 21:11:01,938 - OML-Log - INFO - Testing on YelpDataset                                                       2022-04-17 21:11:02,950 - OML-Log - INFO - Support set metrics: Loss = 0.6518, accuracy = 0.7875, precision = 0.8884, recall = 0.8769, F1 score = 0.8507                                                                                        2022-04-17 21:12:41,025 - OML-Log - INFO - Test metrics: Loss = 0.9943, accuracy = 0.5818, precision = 0.5898, recall = 0.5844, F1 score = 0.5713                                                                                               2022-04-17 21:12:41,026 - OML-Log - INFO - Testing on YahooAnswersDataset                                               2022-04-17 21:12:41,955 - OML-Log - INFO - Support set metrics: Loss = 0.5903, accuracy = 0.7875, precision = 0.7746, recall = 0.7938, F1 score = 0.7667                                                                                        2022-04-17 21:14:16,636 - OML-Log - INFO - Test metrics: Loss = 1.0893, accuracy = 0.6807, precision = 0.7290, recall = 0.6851, F1 score = 0.6826                                                                                               
+2022-04-17 21:14:16,637 - OML-Log - INFO - Testing on AmazonDataset                                                     
+2022-04-17 21:14:17,550 - OML-Log - INFO - Support set metrics: Loss = 0.7664, accuracy = 0.7750, precision = 0.7252, recall = 0.7705, F1 score = 0.7328
+2022-04-17 21:15:44,080 - OML-Log - INFO - Test metrics: Loss = 1.1226, accuracy = 0.5596, precision = 0.5841, recall = 0.5606, F1 score = 0.5634                                                                                               
+2022-04-17 21:15:44,081 - OML-Log - INFO - Testing on DBPediaDataset                                                    
+2022-04-17 21:15:44,995 - OML-Log - INFO - Support set metrics: Loss = 0.8186, accuracy = 0.7500, precision = 0.8220, r$call = 0.8032, F1 score = 0.7923                                                                                        
+2022-04-17 21:17:06,314 - OML-Log - INFO - Test metrics: Loss = 0.1119, accuracy = 0.9761, precision = 0.9820, recall = 0.9761, F1 score = 0.9786                                                                                               
+2022-04-17 21:17:06,314 - OML-Log - INFO - Testing on AGNewsDataset                                                     
+2022-04-17 21:17:07,228 - OML-Log - INFO - Support set metrics: Loss = 0.6774, accuracy = 0.7875, precision = 0.8736, r$call = 0.8597, F1 score = 0.8531                                                                                        
+2022-04-17 21:18:25,822 - OML-Log - INFO - Test metrics: Loss = 0.2365, accuracy = 0.9200, precision = 0.9220, recall = 0.9200, F1 score = 0.9206                                                                                               
+2022-04-17 21:18:25,823 - OML-Log - INFO - Overall test metrics: Accuracy = 0.7436, precision = 0.7614, recall = 0.7452, F1 score = 0.7433
+2022-04-17 21:18:25,823 - ContinualLearningLog - INFO - ----------Testing on test set starts here----------
+2022-04-17 21:18:25,823 - OML-Log - INFO - Testing on YelpDataset
+2022-04-17 21:18:26,752 - OML-Log - INFO - Support set metrics: Loss = 0.6075, accuracy = 0.7875, precision = 0.8184, recall = 0.8246, F1 score = 0.8132
+2022-04-17 21:20:04,430 - OML-Log - INFO - Test metrics: Loss = 0.9979, accuracy = 0.5792, precision = 0.5868, recall =
+0.5818, F1 score = 0.5684
+2022-04-17 21:20:04,430 - OML-Log - INFO - Testing on YahooAnswersDataset
+2022-04-17 21:20:05,335 - OML-Log - INFO - Support set metrics: Loss = 0.8231, accuracy = 0.7000, precision = 0.7225, recall = 0.7538, F1 score = 0.7292
+2022-04-17 21:21:39,877 - OML-Log - INFO - Test metrics: Loss = 1.0872, accuracy = 0.6828, precision = 0.7302, recall =
+0.6874, F1 score = 0.6845
+2022-04-17 21:21:39,877 - OML-Log - INFO - Testing on AmazonDataset
+2022-04-17 21:21:40,804 - OML-Log - INFO - Support set metrics: Loss = 0.6351, accuracy = 0.7625, precision = 0.7976, recall = 0.7905, F1 score = 0.7767
+2022-04-17 21:23:07,142 - OML-Log - INFO - Test metrics: Loss = 1.1259, accuracy = 0.5586, precision = 0.5824, recall =
+0.5597, F1 score = 0.5603
+2022-04-17 21:23:07,142 - OML-Log - INFO - Testing on DBPediaDataset
+2022-04-17 21:23:08,046 - OML-Log - INFO - Support set metrics: Loss = 0.7473, accuracy = 0.7250, precision = 0.7836, recall = 0.8277, F1 score = 0.7752
+2022-04-17 21:24:29,293 - OML-Log - INFO - Test metrics: Loss = 0.1118, accuracy = 0.9761, precision = 0.9820, recall =
+0.9761, F1 score = 0.9786
+2022-04-17 21:24:29,293 - OML-Log - INFO - Testing on AGNewsDataset
+2022-04-17 21:24:30,216 - OML-Log - INFO - Support set metrics: Loss = 0.6366, accuracy = 0.7625, precision = 0.7921, recall = 0.8077, F1 score = 0.7855
+2022-04-17 21:25:48,724 - OML-Log - INFO - Test metrics: Loss = 0.2360, accuracy = 0.9199, precision = 0.9218, recall =
+0.9199, F1 score = 0.9205
+2022-04-17 21:25:48,724 - OML-Log - INFO - Overall test metrics: Accuracy = 0.7433, precision = 0.7606, recall = 0.7449, F1 score = 0.7424
+
+
+Order 4
+(env) (base) root@U23-thanapapas:~/MetaLifelongLanguage# python train_text_cls.py --order 4
+// Forgot to log time
+
+
+2022-04-18 08:41:10,552 - ContinualLearningLog - INFO - Saved the model with name OML-2022-04-18_06-16-55.61911
+2022-04-18 08:41:10,552 - ContinualLearningLog - INFO - ----------Testing on val set starts here----------              
+2022-04-18 08:41:10,552 - OML-Log - INFO - Testing on AGNewsDataset                                                     
+2022-04-18 08:41:11,485 - OML-Log - INFO - Support set metrics: Loss = 0.7791, accuracy = 0.7625, precision = 0.8102, recall = 0.8080, F1 score = 0.7687                                                                                        
+2022-04-18 08:42:30,216 - OML-Log - INFO - Test metrics: Loss = 0.6001, accuracy = 0.7701, precision = 0.8584, recall = 0.7701, F1 score = 0.7741                                                                                               
+2022-04-18 08:42:30,216 - OML-Log - INFO - Testing on YelpDataset                                                       
+2022-04-18 08:42:31,130 - OML-Log - INFO - Support set metrics: Loss = 0.5858, accuracy = 0.7500, precision = 0.8076, recall = 0.8282, F1 score = 0.7967                                                                                        
+2022-04-18 08:44:09,564 - OML-Log - INFO - Test metrics: Loss = 0.9935, accuracy = 0.5811, precision = 0.5902, recall = 0.5835, F1 score = 0.5622                                                                                               
+2022-04-18 08:44:09,565 - OML-Log - INFO - Testing on AmazonDataset                                                     
+2022-04-18 08:44:10,492 - OML-Log - INFO - Support set metrics: Loss = 0.7686, accuracy = 0.7375, precision = 0.7939, recall = 0.7957, F1 score = 0.7573                                                                                        
+2022-04-18 08:45:37,175 - OML-Log - INFO - Test metrics: Loss = 1.0946, accuracy = 0.5511, precision = 0.5726, recall = 0.5522, F1 score = 0.5316                                                                                               
+2022-04-18 08:45:37,175 - OML-Log - INFO - Testing on YahooAnswersDataset                                               
+2022-04-18 08:45:38,126 - OML-Log - INFO - Support set metrics: Loss = 0.7306, accuracy = 0.7250, precision = 0.6330, recall = 0.6784, F1 score = 0.6282                                                                                        
+2022-04-18 08:47:13,223 - OML-Log - INFO - Test metrics: Loss = 0.8915, accuracy = 0.7230, precision = 0.7349, recall = 0.7269, F1 score = 0.7219                                                                                               
+2022-04-18 08:47:13,223 - OML-Log - INFO - Testing on DBPediaDataset                                                    
+2022-04-18 08:47:14,130 - OML-Log - INFO - Support set metrics: Loss = 0.6124, accuracy = 0.7125, precision = 0.8317, recall = 0.8236, F1 score = 0.7986                                                                                        
+2022-04-18 08:48:35,543 - OML-Log - INFO - Test metrics: Loss = 0.0593, accuracy = 0.9864, precision = 0.9868, recall = 0.9865, F1 score = 0.9866                                                                                               
+2022-04-18 08:48:35,543 - OML-Log - INFO - Overall test metrics: Accuracy = 0.7223, precision = 0.7486, recall = 0.7238, F1 score = 0.7153
+2022-04-18 08:48:35,543 - ContinualLearningLog - INFO - ----------Testing on test set starts here----------
+2022-04-18 08:48:35,543 - OML-Log - INFO - Testing on AGNewsDataset
+2022-04-18 08:48:36,456 - OML-Log - INFO - Support set metrics: Loss = 0.7167, accuracy = 0.7375, precision = 0.8143, recall = 0.8163, F1 score = 0.7835
+2022-04-18 08:49:55,089 - OML-Log - INFO - Test metrics: Loss = 0.5972, accuracy = 0.7722, precision = 0.8591, recall =
+0.7722, F1 score = 0.7764
+2022-04-18 08:49:55,089 - OML-Log - INFO - Testing on YelpDataset
+2022-04-18 08:49:56,004 - OML-Log - INFO - Support set metrics: Loss = 0.6104, accuracy = 0.8125, precision = 0.8066, recall = 0.8253, F1 score = 0.7963
+2022-04-18 08:51:34,666 - OML-Log - INFO - Test metrics: Loss = 1.0011, accuracy = 0.5751, precision = 0.5861, recall =
+0.5776, F1 score = 0.5541
+2022-04-18 08:51:34,667 - OML-Log - INFO - Testing on AmazonDataset
+2022-04-18 08:51:35,591 - OML-Log - INFO - Support set metrics: Loss = 0.6800, accuracy = 0.7625, precision = 0.8128, recall = 0.8164, F1 score = 0.7943
+2022-04-18 08:53:02,166 - OML-Log - INFO - Test metrics: Loss = 1.0885, accuracy = 0.5561, precision = 0.5741, recall =
+0.5570, F1 score = 0.5385
+2022-04-18 08:53:02,167 - OML-Log - INFO - Testing on YahooAnswersDataset
+2022-04-18 08:53:03,086 - OML-Log - INFO - Support set metrics: Loss = 0.7636, accuracy = 0.6000, precision = 0.8028, recall = 0.8279, F1 score = 0.7836
+2022-04-18 08:54:38,217 - OML-Log - INFO - Test metrics: Loss = 0.8914, accuracy = 0.7232, precision = 0.7350, recall =
+0.7270, F1 score = 0.7220
+2022-04-18 08:54:38,218 - OML-Log - INFO - Testing on DBPediaDataset
+2022-04-18 08:54:39,138 - OML-Log - INFO - Support set metrics: Loss = 0.6240, accuracy = 0.8000, precision = 0.8815, recall = 0.8533, F1 score = 0.8486
+2022-04-18 08:56:00,546 - OML-Log - INFO - Test metrics: Loss = 0.0593, accuracy = 0.9864, precision = 0.9868, recall =
+0.9865, F1 score = 0.9866
+2022-04-18 08:56:00,547 - OML-Log - INFO - Overall test metrics: Accuracy = 0.7226, precision = 0.7482, recall = 0.7241, F1 score = 0.7155

@@ -8,6 +8,7 @@ MAX_TRAIN_SIZE = 115000
 MAX_VAL_SIZE = 5000
 MAX_TEST_SIZE = 7600
 
+READ_ROWS = None
 
 def preprocess(text):
     """
@@ -36,7 +37,7 @@ class AGNewsDataset(data.Dataset):
 
     def __init__(self, file_path, split, reduce=False):
         self.data = pd.read_csv(file_path, header=None, sep=',', names=['labels', 'title', 'description'],
-                                index_col=False)
+                                index_col=False, nrows=READ_ROWS)
         self.data.dropna(inplace=True)
         self.data['text'] = self.data['title'] + '. ' + self.data['description']
         self.data['labels'] = self.data['labels'] - 1
@@ -62,7 +63,7 @@ class DBPediaDataset(data.Dataset):
 
     def __init__(self, file_path, split, reduce=False):
         self.data = pd.read_csv(file_path, header=None, sep=',', names=['labels', 'title', 'description'],
-                                index_col=False)
+                                index_col=False, nrows=READ_ROWS)
         self.data.dropna(inplace=True)
         self.data['text'] = self.data['title'] + '. ' + self.data['description']
         self.data['labels'] = self.data['labels'] - 1
@@ -88,7 +89,7 @@ class AmazonDataset(data.Dataset):
 
     def __init__(self, file_path, split, reduce=False):
         self.data = pd.read_csv(file_path, header=None, sep=',', names=['labels', 'title', 'description'],
-                                index_col=False)
+                                index_col=False, nrows=READ_ROWS)
         self.data.dropna(inplace=True)
         self.data['text'] = self.data['title'] + '. ' + self.data['description']
         self.data['labels'] = self.data['labels'] - 1
@@ -114,7 +115,7 @@ class YelpDataset(data.Dataset):
 
     def __init__(self, file_path, split, reduce=False):
         self.data = pd.read_csv(file_path, header=None, sep=',', names=['labels', 'text'],
-                                index_col=False)
+                                index_col=False, nrows=READ_ROWS)
         self.data.dropna(inplace=True)
         self.data['labels'] = self.data['labels'] - 1
         self.data['text'] = self.data['text'].apply(preprocess)
@@ -139,7 +140,7 @@ class YahooAnswersDataset(data.Dataset):
     def __init__(self, file_path, split, reduce=False):
         self.data = pd.read_csv(file_path, header=None, sep=',',
                                 names=['labels', 'question_title', 'question_content', 'best_answer'],
-                                index_col=False)
+                                index_col=False, nrows=READ_ROWS)
         self.data.dropna(inplace=True)
         self.data['text'] = self.data['question_title'] + self.data['question_content'] + self.data['best_answer']
         self.data['labels'] = self.data['labels'] - 1

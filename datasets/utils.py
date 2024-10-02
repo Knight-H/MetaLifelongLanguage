@@ -10,6 +10,7 @@ from torch.utils.data import random_split
 from datasets.lifelong_fewrel_dataset import LifelongFewRelDataset
 from datasets.text_classification_dataset import AGNewsDataset, AmazonDataset, DBPediaDataset, MAX_TRAIN_SIZE, MAX_VAL_SIZE, YelpDataset, YahooAnswersDataset
 
+DATA_DIR = '/data/omler_data'
 
 def batch_encode(batch):
     text, labels = [], []
@@ -29,35 +30,87 @@ def rel_encode(batch):
 
 
 def get_dataset(base_path, dataset_id):
+    # KNIGHT EDIT 
+    base_path = DATA_DIR 
+    
     if dataset_id == 0:
-        train_path = os.path.join(base_path, '../data/ag_news_csv/train.csv')
-        test_path = os.path.join(base_path, '../data/ag_news_csv/test.csv')
+        train_path = os.path.join(base_path, 'ag_news_csv/train.csv')
+        test_path = os.path.join(base_path, 'ag_news_csv/test.csv')
         train_dataset = AGNewsDataset(train_path, 'train', reduce=True)
         test_dataset = AGNewsDataset(test_path, 'test', reduce=True)
     elif dataset_id == 1:
-        train_path = os.path.join(base_path, '../data/amazon_review_full_csv/train.csv')
-        test_path = os.path.join(base_path, '../data/amazon_review_full_csv/test.csv')
+        train_path = os.path.join(base_path, 'amazon_review_full_csv/train.csv')
+        test_path = os.path.join(base_path, 'amazon_review_full_csv/test.csv')
         train_dataset = AmazonDataset(train_path, 'train', reduce=True)
         test_dataset = AmazonDataset(test_path, 'test', reduce=True)
     elif dataset_id == 2:
-        train_path = os.path.join(base_path, '../data/yelp_review_full_csv/train.csv')
-        test_path = os.path.join(base_path, '../data/yelp_review_full_csv/test.csv')
+        train_path = os.path.join(base_path, 'yelp_review_full_csv/train.csv')
+        test_path = os.path.join(base_path, 'yelp_review_full_csv/test.csv')
         train_dataset = YelpDataset(train_path, 'train', reduce=True)
         test_dataset = YelpDataset(test_path, 'test', reduce=True)
     elif dataset_id == 3:
-        train_path = os.path.join(base_path, '../data/dbpedia_csv/train.csv')
-        test_path = os.path.join(base_path, '../data/dbpedia_csv/test.csv')
+        train_path = os.path.join(base_path, 'dbpedia_csv/train.csv')
+        test_path = os.path.join(base_path, 'dbpedia_csv/test.csv')
         train_dataset = DBPediaDataset(train_path, 'train', reduce=True)
         test_dataset = DBPediaDataset(test_path, 'test', reduce=True)
     elif dataset_id == 4:
-        train_path = os.path.join(base_path, '../data/yahoo_answers_csv/train.csv')
-        test_path = os.path.join(base_path, '../data/yahoo_answers_csv/test.csv')
+        train_path = os.path.join(base_path, 'yahoo_answers_csv/train.csv')
+        test_path = os.path.join(base_path, 'yahoo_answers_csv/test.csv')
         train_dataset = YahooAnswersDataset(train_path, 'train', reduce=True)
         test_dataset = YahooAnswersDataset(test_path, 'test', reduce=True)
     else:
         raise Exception('Invalid dataset ID')
+    # END KNIGHT EDIT 
     return train_dataset, test_dataset
 
+
+def get_dataset_train(base_path, dataset_id):
+    # KNIGHT EDIT 
+    base_path = DATA_DIR 
+    
+    if dataset_id == 0:
+        train_path = os.path.join(base_path, 'ag_news_csv/train.csv')
+        train_dataset = AGNewsDataset(train_path, 'train', reduce=True)
+    elif dataset_id == 1:
+        train_path = os.path.join(base_path, 'amazon_review_full_csv/train.csv')
+        train_dataset = AmazonDataset(train_path, 'train', reduce=True)
+    elif dataset_id == 2:
+        train_path = os.path.join(base_path, 'yelp_review_full_csv/train.csv')
+        train_dataset = YelpDataset(train_path, 'train', reduce=True)
+    elif dataset_id == 3:
+        train_path = os.path.join(base_path, 'dbpedia_csv/train.csv')
+        train_dataset = DBPediaDataset(train_path, 'train', reduce=True)
+    elif dataset_id == 4:
+        train_path = os.path.join(base_path, 'yahoo_answers_csv/train.csv')
+        train_dataset = YahooAnswersDataset(train_path, 'train', reduce=True)
+    else:
+        raise Exception('Invalid dataset ID')
+    # END KNIGHT EDIT 
+    return train_dataset
+
+def get_dataset_test(base_path, dataset_id):
+    # KNIGHT EDIT 
+    base_path = DATA_DIR 
+    
+    if dataset_id == 0:
+        test_path = os.path.join(base_path, 'ag_news_csv/test.csv')
+        test_dataset = AGNewsDataset(test_path, 'test', reduce=True)
+    elif dataset_id == 1:
+        test_path = os.path.join(base_path, 'amazon_review_full_csv/test.csv')
+        test_dataset = AmazonDataset(test_path, 'test', reduce=True)
+    elif dataset_id == 2:
+        test_path = os.path.join(base_path, 'yelp_review_full_csv/test.csv')
+        test_dataset = YelpDataset(test_path, 'test', reduce=True)
+    elif dataset_id == 3:
+        test_path = os.path.join(base_path, 'dbpedia_csv/test.csv')
+        test_dataset = DBPediaDataset(test_path, 'test', reduce=True)
+    elif dataset_id == 4:
+        test_path = os.path.join(base_path, 'yahoo_answers_csv/test.csv')
+        test_dataset = YahooAnswersDataset(test_path, 'test', reduce=True)
+    else:
+        raise Exception('Invalid dataset ID')
+    # END KNIGHT EDIT 
+    return test_dataset
 
 def get_train_val_split(dataset, train_size, val_size):
     train_dataset, val_dataset = random_split(dataset,
@@ -133,13 +186,14 @@ def create_relation_clusters(num_clusters, relation_embedding, relation_index):
         rel_embed[relation_index[i]] = relation_embedding[i]
     return cluster_index, rel_embed
 
-
+# Cluster  Idx  0                        1                      ....  9
+#            [ [data0, data1, ...],     [data0, data1, ...] .....   [data0, data1, ...]]
 def split_rel_data_by_clusters(data_set, cluster_labels, num_clusters, shuffle_index):
     splitted_data = [[] for i in range(num_clusters)]
-    for data in data_set:
-        cluster_number = cluster_labels[data[0]]
-        index_number = shuffle_index[cluster_number]
-        splitted_data[index_number].append(data)
+    for data in data_set:  # for all 44.5k data
+        cluster_number = cluster_labels[data[0]]      # (data[0]) relation idx of that data map--> cluster index
+        index_number = shuffle_index[cluster_number]  # cluster index --> order of the shuffle
+        splitted_data[index_number].append(data)      # place it in the bucket of num_clusters 
     return splitted_data
 
 
@@ -193,12 +247,21 @@ def get_relation_index(data):
             relation_pool.append(relation_number)
     return relation_pool
 
-
-def prepare_rel_datasets(train_data, relation_names, cluster_labels, num_clusters):
+# Number of clusters = 10
+#   shuffle_index       = shuffled num_clusters ( 0, 1, 2, 3 ... 9)
+#                         There are 0-9 clusters, the shuffle_index corresponds to which cluster comes first. NOT the cluster idx
+#                         ie. [7, 3, 2, 8, 5, 6, 9, 4, 0, 1]  this means
+#                         [0 = cluster8, 1 = cluster9, 2= cluster 2,... ]
+#   splitted_train_data = Split training dataset by clusters (in shuffled index)
+#   For each cluster:
+#         add all seen_relations of that cluster
+#         current_train_data = remove_unseen_relations in current cluster 
+#   train_datasets = [cluster0, cluster1, ... cluster 9]
+def prepare_rel_datasets(train_data, relation_names, cluster_labels, num_clusters, shuffle_index_generator=random.Random(42)):
     train_datasets = []
 
     shuffle_index = list(range(num_clusters))
-    random.shuffle(shuffle_index)
+    shuffle_index_generator.shuffle(shuffle_index)
 
     splitted_train_data = split_rel_data_by_clusters(train_data, cluster_labels, num_clusters, shuffle_index)
     seen_relations = []
@@ -212,4 +275,4 @@ def prepare_rel_datasets(train_data, relation_names, cluster_labels, num_cluster
 
         train_dataset = LifelongFewRelDataset(current_train_data, relation_names)
         train_datasets.append(train_dataset)
-    return train_datasets
+    return train_datasets, shuffle_index

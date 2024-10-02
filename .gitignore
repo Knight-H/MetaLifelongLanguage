@@ -1,7 +1,9 @@
 __pycache__/
+.ipynb_checkpoints/
 .idea/
 .DS_Store
 env/
+env-adapter/
 *.aux
 *.ent
 *.log
@@ -17,3 +19,4 @@ saved_models/
 runs/
 .vector_cache/
 .vscode/
+tmp/

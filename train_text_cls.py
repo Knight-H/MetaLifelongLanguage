@@ -16,9 +16,12 @@ from models.cls_baseline import Baseline
 from models.cls_maml import MAML
 from models.cls_oml import OML
 from models.cls_replay import Replay
+from models.cls_oml2 import OML2
 
 logging.basicConfig(level='INFO', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger('ContinualLearningLog')
+
+# python train_text_cls.py --order 1 --learner oml2 --model gpt2
 
 
 if __name__ == '__main__':
@@ -89,6 +92,8 @@ if __name__ == '__main__':
         learner = MAML(device=device, n_classes=n_classes, **vars(args))
     elif args.learner == 'oml':
         learner = OML(device=device, n_classes=n_classes, **vars(args))
+    elif args.learner == 'oml2':
+        learner = OML2(device=device, n_classes=n_classes, **vars(args))
     elif args.learner == 'anml':
         learner = ANML(device=device, n_classes=n_classes, **vars(args))
     else:
@@ -105,8 +110,8 @@ if __name__ == '__main__':
     logger.info('Saved the model with name {}'.format(model_file_name))
 
     # Testing
-    logger.info('----------Testing on val set starts here----------')
-    learner.testing(test_datasets, **vars(args))
+#     logger.info('----------Testing on val set starts here----------')
+#     learner.testing(test_datasets, **vars(args))
 
     # Testing
     logger.info('----------Testing on test set starts here----------')

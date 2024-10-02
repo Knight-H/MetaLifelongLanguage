@@ -4,6 +4,7 @@ import math
 import higher
 import torch
 from torch import nn, optim
+from tqdm import tqdm
 
 import numpy as np
 
@@ -12,7 +13,7 @@ from transformers import AdamW
 
 import datasets.utils
 import models.utils
-from models.base_models import ReplayMemory, TransformerRLN, LinearPLN
+from models.base_models_ori import ReplayMemory, TransformerRLN, LinearPLN
 
 logging.basicConfig(level='INFO', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger('OML-Log')
@@ -55,8 +56,7 @@ class OML:
         self.rln.load_state_dict(checkpoint['rln'])
         self.pln.load_state_dict(checkpoint['pln'])
 
-    def evaluate(self, dataloader, updates, mini_batch_size):
-
+    def evaluate(self, dataloader, updates, mini_batch_size, model_name="roberta"):
         self.rln.eval()
         self.pln.train()
 
@@ -73,13 +73,15 @@ class OML:
             task_predictions, task_labels = [], []
             support_loss = []
             for text, label, candidates in support_set:
-                replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text,
-                                                                                                         label,
-                                                                                                         candidates)
-
-                input_dict = self.rln.encode_text(list(zip(replicated_text, replicated_relations)))
-                repr = self.rln(input_dict)
-                output = fpln(repr)
+                replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text,label,candidates)
+                add_prefix_space = False
+                if model_name == "roberta":
+                    replicated_text = [ " ".join(_t) for _t in replicated_text ]
+                    replicated_relations = [ " ".join(_t) for _t in replicated_relations ]
+                    add_prefix_space = True
+                input_dict = self.rln.encode_text(list(zip(replicated_text, replicated_relations)), add_prefix_space)
+                _repr = self.rln(input_dict)
+                output = fpln(_repr)
                 targets = torch.tensor(ranking_label).float().unsqueeze(1).to(self.device)
                 loss = self.loss_fn(output, targets)
 
@@ -90,20 +92,21 @@ class OML:
                 task_labels.extend(true_labels.tolist())
 
             acc = models.utils.calculate_accuracy(task_predictions, task_labels)
-
             logger.info('Support set metrics: Loss = {:.4f}, accuracy = {:.4f}'.format(np.mean(support_loss), acc))
 
             all_losses, all_predictions, all_labels = [], [], []
 
-            for text, label, candidates in dataloader:
-                replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text,
-                                                                                                         label,
-                                                                                                         candidates)
+            for text, label, candidates in tqdm(dataloader):
+                replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text,label,candidates)
                 with torch.no_grad():
-
-                    input_dict = self.rln.encode_text(list(zip(replicated_text, replicated_relations)))
-                    repr = self.rln(input_dict)
-                    output = fpln(repr)
+                    add_prefix_space = False
+                    if model_name == "roberta":
+                        replicated_text = [ " ".join(_t) for _t in replicated_text ]
+                        replicated_relations = [ " ".join(_t) for _t in replicated_relations ]
+                        add_prefix_space = True
+                    input_dict = self.rln.encode_text(list(zip(replicated_text, replicated_relations)), add_prefix_space)
+                    _repr = self.rln(input_dict)
+                    output = fpln(_repr)
                     targets = torch.tensor(ranking_label).float().unsqueeze(1).to(self.device)
                     loss = self.loss_fn(output, targets)
 
@@ -115,12 +118,12 @@ class OML:
 
         acc = models.utils.calculate_accuracy(all_predictions, all_labels)
         logger.info('Test metrics: Loss = {:.4f}, accuracy = {:.4f}'.format(np.mean(all_losses), acc))
-
         return acc
 
     def training(self, train_datasets, **kwargs):
         updates = kwargs.get('updates')
         mini_batch_size = kwargs.get('mini_batch_size')
+        model_name = kwargs.get('model')
 
         if self.replay_rate != 0:
             replay_batch_freq = self.replay_every // mini_batch_size
@@ -135,6 +138,7 @@ class OML:
         concat_dataset = data.ConcatDataset(train_datasets)
         train_dataloader = iter(data.DataLoader(concat_dataset, batch_size=mini_batch_size, shuffle=False,
                                                 collate_fn=datasets.utils.rel_encode))
+        pbar = tqdm(total=math.ceil(len(concat_dataset)/mini_batch_size ))
 
         episode_id = 0
         while True:
@@ -152,19 +156,22 @@ class OML:
                 for _ in range(updates):
                     try:
                         text, label, candidates = next(train_dataloader)
+                        pbar.update(1)
                         support_set.append((text, label, candidates))
                     except StopIteration:
                         logger.info('Terminating training as all the data is seen')
                         return
 
                 for text, label, candidates in support_set:
-                    replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text,
-                                                                                                             label,
-                                                                                                             candidates)
-
-                    input_dict = self.rln.encode_text(list(zip(replicated_text, replicated_relations)))
-                    repr = self.rln(input_dict)
-                    output = fpln(repr)
+                    replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text,label,candidates)
+                    add_prefix_space = False
+                    if model_name == "roberta":
+                        replicated_text = [ " ".join(_t) for _t in replicated_text ]
+                        replicated_relations = [ " ".join(_t) for _t in replicated_relations ]
+                        add_prefix_space = True
+                    input_dict = self.rln.encode_text(list(zip(replicated_text, replicated_relations)), add_prefix_space)
+                    _repr = self.rln(input_dict)
+                    output = fpln(_repr)
                     targets = torch.tensor(ranking_label).float().unsqueeze(1).to(self.device)
                     loss = self.loss_fn(output, targets)
 
@@ -177,9 +184,9 @@ class OML:
 
                 acc = models.utils.calculate_accuracy(task_predictions, task_labels)
 
-                logger.info('Episode {} support set: Loss = {:.4f}, accuracy = {:.4f}'.format(episode_id + 1,
-                                                                                              np.mean(support_loss),
-                                                                                              acc))
+#                 logger.info('Episode {} support set: Loss = {:.4f}, accuracy = {:.4f}'.format(episode_id + 1,
+#                                                                                               np.mean(support_loss),
+#                                                                                               acc))
 
                 # Outer loop
                 query_loss, query_acc = [], []
@@ -192,6 +199,7 @@ class OML:
                 else:
                     try:
                         text, label, candidates = next(train_dataloader)
+                        pbar.update(1)
                         query_set.append((text, label, candidates))
                         self.memory.write_batch(text, label, candidates)
                     except StopIteration:
@@ -199,13 +207,15 @@ class OML:
                         return
 
                 for text, label, candidates in query_set:
-                    replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text,
-                                                                                                             label,
-                                                                                                             candidates)
-
-                    input_dict = self.rln.encode_text(list(zip(replicated_text, replicated_relations)))
-                    repr = self.rln(input_dict)
-                    output = fpln(repr)
+                    replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text,label,candidates)
+                    add_prefix_space = False
+                    if model_name == "roberta":
+                        replicated_text = [ " ".join(_t) for _t in replicated_text ]
+                        replicated_relations = [ " ".join(_t) for _t in replicated_relations ]
+                        add_prefix_space = True
+                    input_dict = self.rln.encode_text(list(zip(replicated_text, replicated_relations)), add_prefix_space)
+                    _repr = self.rln(input_dict)
+                    output = fpln(_repr)
                     targets = torch.tensor(ranking_label).float().unsqueeze(1).to(self.device)
                     loss = self.loss_fn(output, targets)
 
@@ -238,17 +248,19 @@ class OML:
                 self.meta_optimizer.step()
                 self.meta_optimizer.zero_grad()
 
-                logger.info('Episode {} query set: Loss = {:.4f}, accuracy = {:.4f}'.format(episode_id + 1,
-                                                                                            np.mean(query_loss),
-                                                                                            np.mean(query_acc)))
+#                 logger.info('Episode {} query set: Loss = {:.4f}, accuracy = {:.4f}'.format(episode_id + 1,
+#                                                                                             np.mean(query_loss),
+#                                                                                             np.mean(query_acc)))
 
                 episode_id += 1
+        pbar.close()
 
     def testing(self, test_dataset, **kwargs):
         updates = kwargs.get('updates')
         mini_batch_size = kwargs.get('mini_batch_size')
+        model_name = kwargs.get('model')
         test_dataloader = data.DataLoader(test_dataset, batch_size=mini_batch_size, shuffle=False,
                                           collate_fn=datasets.utils.rel_encode)
-        acc = self.evaluate(dataloader=test_dataloader, updates=updates, mini_batch_size=mini_batch_size)
+        acc = self.evaluate(dataloader=test_dataloader, updates=updates, mini_batch_size=mini_batch_size, model_name=model_name)
         logger.info('Overall test metrics: Accuracy = {:.4f}'.format(acc))
         return acc

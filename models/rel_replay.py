@@ -1,6 +1,7 @@
 import logging
 import torch
 from torch import nn
+from tqdm import tqdm
 
 import numpy as np
 
@@ -9,7 +10,7 @@ from transformers import AdamW
 
 import datasets.utils
 import models.utils
-from models.base_models import TransformerClsModel, ReplayMemory
+from models.base_models_ori import TransformerClsModel, ReplayMemory
 
 logging.basicConfig(level='INFO', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger('Replay-Log')
@@ -43,19 +44,24 @@ class Replay:
         checkpoint = torch.load(model_path)
         self.model.load_state_dict(checkpoint)
 
-    def train(self, dataloader, n_epochs, log_freq):
+    def train(self, dataloader, n_epochs, log_freq, model_name):
 
         self.model.train()
 
         for epoch in range(n_epochs):
             all_losses, all_predictions, all_labels = [], [], []
-            iter = 0
+            _iter = 0
 
-            for text, label, candidates in dataloader:
+            for text, label, candidates in tqdm(dataloader):
                 replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text, label,
                                                                                                          candidates)
+                add_prefix_space = False
+                if model_name == "roberta":
+                    replicated_text = [ " ".join(_t) for _t in replicated_text ]
+                    replicated_relations = [ " ".join(_t) for _t in replicated_relations ]
+                    add_prefix_space = True
 
-                input_dict = self.model.encode_text(list(zip(replicated_text, replicated_relations)))
+                input_dict = self.model.encode_text(list(zip(replicated_text, replicated_relations)), add_prefix_space)
                 output = self.model(input_dict)
                 targets = torch.tensor(ranking_label).float().unsqueeze(1).to(self.device)
                 loss = self.loss_fn(output, targets)
@@ -67,12 +73,18 @@ class Replay:
                 replay_freq = self.replay_every // mini_batch_size
                 replay_steps = int(self.replay_every * self.replay_rate / mini_batch_size)
 
-                if self.replay_rate != 0 and (iter + 1) % replay_freq == 0:
+                if self.replay_rate != 0 and (_iter + 1) % replay_freq == 0:
                     self.optimizer.zero_grad()
                     for _ in range(replay_steps):
                         ref_text, ref_label, ref_candidates = self.memory.read_batch(batch_size=mini_batch_size)
                         replicated_ref_text, replicated_ref_relations, ref_ranking_label = datasets.utils.replicate_rel_data(ref_text, ref_label, ref_candidates)
-                        ref_input_dict = self.model.encode_text(list(zip(replicated_ref_text, replicated_ref_relations)))
+                        
+                        add_prefix_space = False
+                        if model_name == "roberta":
+                            replicated_ref_text = [ " ".join(_t) for _t in replicated_ref_text ]
+                            replicated_ref_relations = [ " ".join(_t) for _t in replicated_ref_relations ]
+                            add_prefix_space = True
+                        ref_input_dict = self.model.encode_text(list(zip(replicated_ref_text, replicated_ref_relations)), add_prefix_space)
                         ref_output = self.model(ref_input_dict)
                         ref_targets = torch.tensor(ref_ranking_label).float().unsqueeze(1).to(self.device)
                         ref_loss = self.loss_fn(ref_output, ref_targets)
@@ -87,16 +99,16 @@ class Replay:
                 all_losses.append(loss)
                 all_predictions.extend(pred.tolist())
                 all_labels.extend(true_labels.tolist())
-                iter += 1
+                _iter += 1
                 self.memory.write_batch(text, label, candidates)
 
-                if iter % log_freq == 0:
+                if _iter % log_freq == 0:
                     acc = models.utils.calculate_accuracy(all_predictions, all_labels)
                     logger.info(
                         'Epoch {} metrics: Loss = {:.4f}, accuracy = {:.4f}'.format(epoch + 1, np.mean(all_losses), acc))
                     all_losses, all_predictions, all_labels = [], [], []
 
-    def evaluate(self, dataloader):
+    def evaluate(self, dataloader, model_name):
         all_losses, all_predictions, all_labels = [], [], []
 
         self.model.eval()
@@ -104,9 +116,14 @@ class Replay:
         for text, label, candidates in dataloader:
             replicated_text, replicated_relations, ranking_label = datasets.utils.replicate_rel_data(text, label,
                                                                                                      candidates)
+            add_prefix_space = False
+            if model_name == "roberta":
+                replicated_text = [ " ".join(_t) for _t in replicated_text ]
+                replicated_relations = [ " ".join(_t) for _t in replicated_relations ]
+                add_prefix_space = True
 
             with torch.no_grad():
-                input_dict = self.model.encode_text(list(zip(replicated_text, replicated_relations)))
+                input_dict = self.model.encode_text(list(zip(replicated_text, replicated_relations)),add_prefix_space)
                 output = self.model(input_dict)
 
             pred, true_labels = models.utils.make_rel_prediction(output, ranking_label)
@@ -119,17 +136,19 @@ class Replay:
 
     def training(self, train_datasets, **kwargs):
         n_epochs = kwargs.get('n_epochs', 1)
-        log_freq = kwargs.get('log_freq', 20)
+        log_freq = kwargs.get('log_freq', 2000)
         mini_batch_size = kwargs.get('mini_batch_size')
+        model_name = kwargs.get('model')
         train_dataset = data.ConcatDataset(train_datasets)
         train_dataloader = data.DataLoader(train_dataset, batch_size=mini_batch_size, shuffle=False,
                                            collate_fn=datasets.utils.rel_encode)
-        self.train(dataloader=train_dataloader, n_epochs=n_epochs, log_freq=log_freq)
+        self.train(dataloader=train_dataloader, n_epochs=n_epochs, log_freq=log_freq,model_name=model_name)
 
     def testing(self, test_dataset, **kwargs):
         mini_batch_size = kwargs.get('mini_batch_size')
+        model_name = kwargs.get('model')
         test_dataloader = data.DataLoader(test_dataset, batch_size=mini_batch_size, shuffle=False,
                                           collate_fn=datasets.utils.rel_encode)
-        acc = self.evaluate(dataloader=test_dataloader)
+        acc = self.evaluate(dataloader=test_dataloader,model_name=model_name)
         logger.info('Overall test metrics: Accuracy = {:.4f}'.format(acc))
         return acc
